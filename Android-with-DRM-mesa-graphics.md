@@ -1,3 +1,5 @@
+Instructions for building Android M using mesa/DRM graphics stack. Currently supported are freedreno on Dragonboard 410c and virtio-gpu on QEMU (x86 KVM and arm64 TCG).
+
 ### Install dependent packages
 This is for ubuntu and assuming your machine is already setup for building kernel and QEMU.
 
@@ -61,6 +63,7 @@ index de0f921..0d35028 100644
          mLastSwapBufferTime(0),
 ```
 
+- Copy Adreno firmware files a300_pfp.fw and a300_pm4.fw to device/linaro/generic
 - `make -j8`
 
 ### Run QEMU
