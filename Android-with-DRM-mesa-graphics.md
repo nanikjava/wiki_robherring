@@ -86,6 +86,12 @@ else
 fi
 ANDROID_IMAGE_PATH=/media/rob/robextdisk/android/aosp/out/target/product/linaro_${ARCH}
 
+if [ ${ANDROID_IMAGE_PATH}/system.img -nt system.raw ]; then
+	simg2img ${ANDROID_IMAGE_PATH}/system.img system.raw
+	simg2img ${ANDROID_IMAGE_PATH}/cache.img cache.raw
+	simg2img ${ANDROID_IMAGE_PATH}/userdata.img userdata.raw
+fi
+
 ~/qemu/${QEMU_ARCH}-softmmu/qemu-system-${QEMU_ARCH} \
 	${QEMU_OPTS} \
 	-append "${KERNEL_CMDLINE}" \
@@ -93,11 +99,11 @@ ANDROID_IMAGE_PATH=/media/rob/robextdisk/android/aosp/out/target/product/linaro_
 	-serial mon:stdio \
 	-kernel $KERNEL \
 	-initrd ${ANDROID_IMAGE_PATH}/ramdisk.img \
-	-drive index=0,if=none,id=system,file=${ANDROID_IMAGE_PATH}/system.img \
+	-drive index=0,if=none,id=system,file=system.raw \
 	-device virtio-blk-pci,drive=system \
-	-drive index=1,if=none,id=cache,file=${ANDROID_IMAGE_PATH}/cache.img \
+	-drive index=1,if=none,id=cache,file=cache.raw \
 	-device virtio-blk-pci,drive=cache \
-	-drive index=2,if=none,id=userdata,file=${ANDROID_IMAGE_PATH}/userdata.img \
+	-drive index=2,if=none,id=userdata,file=userdata.raw \
 	-device virtio-blk-pci,drive=userdata \
 	-netdev user,id=mynet -device virtio-net-pci,netdev=mynet \
 	-device virtio-gpu-pci,virgl -display gtk,gl=on \
