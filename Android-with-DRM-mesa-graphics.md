@@ -3,7 +3,7 @@ Instructions for building Android M using mesa/DRM graphics stack. Currently sup
 ### Install dependent packages
 This is for ubuntu and assuming your machine is already setup for building kernel and QEMU.
 
-`sudo apt-get install libgbm-dev libsdl2-dev libgtk-3-dev libgles2-mesa-dev libpixman-1-dev libtool autoconf`
+`sudo apt-get install libgbm-dev libsdl2-dev libgtk-3-dev libgles2-mesa-dev libpixman-1-dev libtool autoconf libepoxy-dev`
 
 ### Build virglrenderer
 
