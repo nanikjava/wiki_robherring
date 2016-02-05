@@ -45,24 +45,6 @@ The build is AOSP M plus mainline mesa and libdrm and modifications to drm_grall
 - `cd ..`
 - `repo sync -j10`
 - `lunch` Select linaro_arm64-userdebug or linaro_x86_64-userdebug
-- Disable h/w overlays:
-
-```
-diff --git a/services/surfaceflinger/SurfaceFlinger.cpp b/services/surfaceflinger/SurfaceFlinger.cpp
-index de0f921..0d35028 100644
---- a/services/surfaceflinger/SurfaceFlinger.cpp
-+++ b/services/surfaceflinger/SurfaceFlinger.cpp
-@@ -138,7 +138,7 @@ SurfaceFlinger::SurfaceFlinger()
-         mAnimCompositionPending(false),
-         mDebugRegion(0),
-         mDebugDDMS(0),
--        mDebugDisableHWC(0),
-+        mDebugDisableHWC(1),
-         mDebugDisableTransformHint(0),
-         mDebugInSwapBuffers(0),
-         mLastSwapBufferTime(0),
-```
-
 - Copy Adreno firmware files a300_pfp.fw and a300_pm4.fw to device/linaro/generic
 - `make -j8`
 
@@ -77,7 +59,7 @@ QEMU_ARCH=$ARCH
 if [ "$ARCH" = "arm64" ]; then
 	QEMU_ARCH="aarch64"
 	QEMU_OPTS="-cpu cortex-a57 -machine type=virt"
-	KERNEL_CMDLINE='console=ttyAMA0,38400 keep_bootcon earlyprintk=ttyAMA0 debug nosmp drm.debug=0 rootwait'
+	KERNEL_CMDLINE='console=ttyAMA0,38400 debug nosmp drm.debug=0 rootwait'
 	KERNEL=/home/rob/proj/git/linux-2.6/.build-arm64/arch/arm64/boot/Image
 else
 	KERNEL=/home/rob/proj/git/linux-2.6/.build-x86/arch/x86/boot/bzImage
