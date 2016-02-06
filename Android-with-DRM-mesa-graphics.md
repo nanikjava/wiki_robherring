@@ -14,7 +14,7 @@ This is for ubuntu and assuming your machine is already setup for building kerne
 - `sudo make install`
 
 ### Build QEMU
-- fetch current mainline
+- Clone mainline deo -- git clone git://git.qemu-project.org/qemu.git
 - Optional performance improvement: Apply the patch “target-arm: A64: fix use 12 bit page tables for AArch64 [!UPSTREAM]”
 - HACK: Mouse input with GTK 3.16 and OpenGL appears to be broken. Work-around is edit configure script and force ‘gtk_gl=”no”’.
 - `./configure --target-list=aarch64-softmmu,x86_64-softmmu --enable-gtk --with-gtkabi=3.0 --enable-kvm`
@@ -22,8 +22,12 @@ This is for ubuntu and assuming your machine is already setup for building kerne
 
 ### Build kernel
 QEMU:
-- Get http://git.linaro.org/people/rob.herring/linux.git android-4.4
-- For x86, build with android_defconfig. For arm64, build with ranchu_defconfig
+- Clone android-4.4 branch from http://git.linaro.org/people/rob.herring/linux.git
+     git clone http://git.linaro.org/people/rob.herring/linux.git -b android-4.4
+- For x86, build with android_defconfig.
+  `make defconfig android_defconfig`
+- For arm64, build with ranchu_defconfig
+  `make defconfig ranchu_defconfig`
 
 Dragonboard 410c:
 - Get http://git.linaro.org/landing-teams/working/qualcomm/kernel.git release/qcomlt-4.3
@@ -62,6 +66,8 @@ if [ "$ARCH" = "arm64" ]; then
 	KERNEL_CMDLINE='console=ttyAMA0,38400 debug nosmp drm.debug=0 rootwait'
 	KERNEL=/home/rob/proj/git/linux-2.6/.build-arm64/arch/arm64/boot/Image
 else
+    # can use x86_64 if compiled Linux 64bit
+    QEMU_ARCH="x86"
 	KERNEL=/home/rob/proj/git/linux-2.6/.build-x86/arch/x86/boot/bzImage
 	QEMU_OPTS="-enable-kvm -smp 2"
 	KERNEL_CMDLINE='console=ttyS0 debug  drm.debug=0'
